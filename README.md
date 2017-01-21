@@ -1,5 +1,5 @@
 # SMS Py
-SMS autoresponse and directory built with Python and uses Termux API.
+SMS Auto responder and Directory built with Python and uses Termux API.
 
 ## Requirements & Dependencies
 - Android Phone
