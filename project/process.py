@@ -24,14 +24,17 @@ def responseQuery(number, body):
 def process(number, body): 
     if number:
         if body:
+            # System
             resp = sa.responseQuery(number, body)
             if resp:
                 return resp
             else:
+                # Static Response
                 respo = responseQuery(number, body)
                 if respo:
                     return respo
                 else:
+                    # Dynamic Response 
                     respon = dynamic.responseQuery(number, body)
                     if respon:
                         return respon

@@ -11,7 +11,7 @@ def processBody(number, body):
 
 ## Main Application Function Process
 def doProcess(sc):
-    texts = subprocess.check_output('termux-sms-inbox -l "30"', shell=True)
+    texts = subprocess.check_output('termux-sms-inbox -l "5"', shell=True)
     texts = json.loads(texts.decode("utf-8"))
     for text in texts:
         sender = text['number']
