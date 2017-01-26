@@ -1,5 +1,5 @@
 <%
-loc = "static/"
+loc = "../static/"
 %>
 <!Doctype html>
 <head>

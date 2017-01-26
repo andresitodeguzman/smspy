@@ -62,26 +62,109 @@ def logout():
 				response.delete_cookie('smspy_logged_in')
 				redirect('/')
 
-@route('/add')
-def add():
+@route('/response')
+def responses():
+			if request.get_cookie("smspy_logged_in"):
+				if(request.query.message):
+				 		msg = request.query.message
+				else:
+				 		msg = ''
+				return template('response.tpl', message=msg)
+			else:
+			 		redirect('/')
+
+@route('/response/add')
+def addblacklist():
 			if request.get_cookie("smspy_logged_in"):
 			 		if(request.query.message):
 			 			msg = request.query.message
 			 		else:
 			 			msg = ''
-			 		return template('add.tpl', message=msg)
+			 		return template('response_add.tpl', message=msg)
 			else:
 			 		redirect('/')
 
-@post('/add')
+@post('/response/add')
 def addlogic():
 			if request.get_cookie("smspy_logged_in"):
 			 		category = request.forms.get('category')
 			 		keyword = request.forms.get('keyword')
 			 		response = request.forms.get('response')
 			 		add_response = action.addResponse(category, keyword, response)
-			 		redirect('/add?message=' + str(add_response))
+			 		redirect('/response/add?message=' + str(add_response))
 			else:
 			 		redirect('/')
+
+@route('/response/delete/<keyword>')
+def deleteKeyword(keyword):
+			if request.get_cookie("smspy_logged_in"):
+				del_res = action.deleteResponse(keyword)
+				redirect('/response?message=' + str(del_res))
+			else:
+				redirect('/')
+
+@route('/response/edit')
+def editKeyword():
+			if request.get_cookie("smspy_logged_in"):
+				if request.query.keyword:
+					keyword = request.query.keyword
+					return template('response_edit.tpl', keyword=keyword)
+				else:
+					redirect('/response?message=Response%20not%20found')
+			else:
+				redirect('/')
+
+@post('/response/edit')
+def editKeywordDo():
+			if request.get_cookie("smspy_logged_in"):
+					keyword_old = request.query.keyword_old
+					category = request.forms.get('category')
+					keyword = request.forms.get('keyword')
+					response = request.forms.get('response')
+					edit_ret = action.editResponse(keyword_old, category, keyword, response)
+					redirect('/response?message=' + str(edit_ret))
+			else:
+				redirect('/')
+
+@route('/blacklist')
+def blklist():
+			if request.get_cookie("smspy_logged_in"):
+				if(request.query.message):
+					msg = request.query.message
+				else:
+					msg = ''
+				return template('blacklist.tpl', message=msg)
+			else:
+			 		redirect('/')
+
+@route('/blacklist/add')
+def add():
+			if request.get_cookie("smspy_logged_in"):
+			 		if(request.query.message):
+			 			msg = request.query.message
+			 		else:
+			 			msg = ''
+			 		return template('blacklist_add.tpl', message=msg)
+			else:
+			 		redirect('/')
+
+@post('/blacklist/add')
+def addLogicb():
+			if request.get_cookie("smspy_logged_in"):
+			 		number = request.forms.get('number')
+			 		add_blacklist = action.addBlacklist(number)
+			 		redirect('/blacklist/add?message=' + str(add_blacklist))
+			else:
+			 		redirect('/')
+
+@route('/blacklist/delete/<number>')
+def deleteNumber(number):
+			if request.get_cookie("smspy_logged_in"):
+				del_res = action.deleteBlacklist(number)
+				redirect('/blacklist?message=' + str(del_res))
+			else:
+				redirect('/')
+
+
 
 run(host='localhost', port=8080, debug=True)
