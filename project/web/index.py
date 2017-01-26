@@ -1,6 +1,7 @@
 from bottle import route, run, template, get, post, request, static_file, error, redirect, response
 import bottle
 import sqlite3, random
+import action
 
 # Configs
 bottle.TEMPLATE_PATH.insert(0,'includes')
@@ -60,5 +61,27 @@ def loginlogic():
 def logout():
 				response.delete_cookie('smspy_logged_in')
 				redirect('/')
+
+@route('/add')
+def add():
+			if request.get_cookie("smspy_logged_in"):
+			 		if(request.query.message):
+			 			msg = request.query.message
+			 		else:
+			 			msg = ''
+			 		return template('add.tpl', message=msg)
+			else:
+			 		redirect('/')
+
+@post('/add')
+def addlogic():
+			if request.get_cookie("smspy_logged_in"):
+			 		category = request.forms.get('category')
+			 		keyword = request.forms.get('keyword')
+			 		response = request.forms.get('response')
+			 		add_response = action.addResponse(category, keyword, response)
+			 		redirect('/add?message=' + str(add_response))
+			else:
+			 		redirect('/')
 
 run(host='localhost', port=8080, debug=True)
