@@ -11,23 +11,33 @@ def processBody(number, body):
 
 ## Main Application Function Process
 def doProcess(sc):
-    texts = subprocess.check_output('termux-sms-inbox -l "5"', shell=True)
-    texts = json.loads(texts.decode("utf-8"))
+    try:
+        texts = subprocess.check_output('termux-sms-inbox -l "5"', shell=True)
+        texts = json.loads(texts.decode("utf-8"))
+    except:
+        texts = []
+        pass
     for text in texts:
         sender = text['number']
         date = text['received']
         body = text['body']
         blacklist = sms.checkBlackList(sender)
+        ratelimit = sms.rateLimit(sender)
         if blacklist:
             pass
         else:
-            replied = sms.checkReplied(sender, date, body)
-            if replied:
+            if ratelimit:
+                rc = "RATE LIMIT EXCEEDED!"
+                sms.saveSMS(sender, date, body, rc)
                 pass
             else:
-              response = processBody(sender, body)
-              sms.saveSMS(sender, date, body, response)
-              sms.sendSMS(sender, response)
+                replied = sms.checkReplied(sender, date, body)
+                if replied:
+                    pass
+                else:
+                    response = processBody(sender, body)
+                    sms.saveSMS(sender, date, body, response)
+                    sms.sendSMS(sender, response)
     s.enter(10, 1, doProcess, (sc,))
 
 ## Instantiate the Process
