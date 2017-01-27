@@ -2,7 +2,7 @@
 import sqlite3
 conn = sqlite3.connect('../database/db.sqlite3')
 c = conn.cursor()
-data = c.execute("SELECT * FROM BLACKLIST")
+data = c.execute("SELECT * FROM BLACKLIST ORDER BY number ASC")
 %>
 
 <% include('header.tpl') %>

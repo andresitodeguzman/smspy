@@ -1,4 +1,5 @@
 import sqlite3
+import subprocess
 
 #create connection
 conn = sqlite3.connect('../database/db.sqlite3')
@@ -63,3 +64,20 @@ def deleteBlacklist(number):
 		return "Number removed from blacklist successfully!"
 	else:
 		return "Number not found"
+
+def setPasscode(passcode):
+	values = (str(passcode),)
+	c.execute("UPDATE hexbin SET passcode=?", values)
+	conn.commit()
+	return "Access Code changed successfully!"	
+
+def sendSMS(number, body):
+	if number:
+		if body:
+			statement = "termux-sms-send -n '" + str(number) + "' '" + str(body) + "'"
+			subprocess.check_output(statement, shell=True)
+			return "SMS successfully sent"
+		else:
+			return "Message cannot be empty"
+	else:
+		return "Cannot send to empty number"

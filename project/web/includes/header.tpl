@@ -1,9 +1,20 @@
 <%
+import subprocess, json
+battery_info = subprocess.check_output("termux-battery-status", shell=True)
+battery_info = json.loads(battery_info.decode("utf-8"))
+percentage = battery_info['percentage']
+if battery_info['status'] == "NOT_CHARGING":
+	stat = ""
+elif battery_info['status'] == "FULL":
+	stat = " - Full!"
+else:
+	stat = " - Charging"
+end
 loc = "../static/"
 %>
 <!Doctype html>
 <head>
-	<title>SMSPy</title>
+	<title>SMS Py</title>
 	<meta name="theme-color" content="green">
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
@@ -26,6 +37,7 @@ loc = "../static/"
 	<a href="/" class="white-text"><span class="icon icon-"></span><b>SMSPy</b></a> 
 </div>
 <div class="pull-right">
+	<a href="/settings" class="white-text"><span class="icon icon-"></span>{{percentage}}%{{stat}}</a>
 	<a href="/logout" class="white-text"><span class="icon icon-"></span><b>Logout</b></a>
 	<span class="icon icon-"></span>
 </div>

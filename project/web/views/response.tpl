@@ -2,7 +2,7 @@
 import sqlite3
 conn = sqlite3.connect('../database/db.sqlite3')
 c = conn.cursor()
-data = c.execute("SELECT * FROM MAIN")
+data = c.execute("SELECT * FROM MAIN ORDER BY keyword ASC")
 %>
 
 <% include('header.tpl') %>

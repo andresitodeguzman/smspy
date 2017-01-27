@@ -23,12 +23,16 @@ def do_login(access_code):
 # HANDLE ERROR
 @error(404)
 def not_found(error):
-    return template('404.tpl')
-
+	return "<meta name='theme-color' content='green'><meta http-equiv='refresh' content='0; url=/404'><style>body{background-color:green}</style>"
+	
 # STATIC FILES
 @route('/static/<filepath:path>')
 def server_static(filepath):
     return static_file(filepath, root='static')
+
+@get('/404')
+def four():
+			return template('404.tpl')
 
 @get('/')
 def home():
@@ -165,6 +169,64 @@ def deleteNumber(number):
 			else:
 				redirect('/')
 
+@route('/settings/accesscode')
+def accesscode():
+	if request.get_cookie("smspy_logged_in"):
+		if request.query.message:
+			msg = request.query.message
+		else:
+			msg = ''
+		return template('settings_accesscode.tpl', message=msg)
+	else:
+		redirect('/')
+
+@post('/settings/accesscode')
+def accesscodeChange():
+	if request.get_cookie("smspy_logged_in"):
+		access_code = request.forms.get('access_code')
+		acc_response = action.setPasscode(access_code)
+		redirect('/settings/accesscode?message=' + str(acc_response))
+	else:
+		redirect('/')
+
+@route('/inbox')
+def inbox():
+	if request.get_cookie("smspy_logged_in"):
+		if request.query.message:
+			msg = request.query.message
+		else:
+			msg = ''
+		return template('inbox.tpl', message=msg)
+	else:
+		redirect('/')
+
+@route('/inbox/reply')
+def reply():
+	if request.get_cookie("smspy_logged_in"):
+		if request.query.id:
+			 id = request.query.id
+			 return template('inbox_reply.tpl', id=id)
+		else:
+			redirect('/inbox?message=Message%20not%20found')
+	else:
+		redirect('/')
+
+@route('/inbox/compose')
+def compose():
+	if request.get_cookie("smspy_logged_in"):
+			return template('inbox_compose.tpl')
+	else:
+		redirect('/')
+
+@post('/inbox/send')
+def composeaction():
+	if request.get_cookie("smspy_logged_in"):
+		number = request.forms.get("number")
+		body = request.forms.get("body")
+		send_resp = action.sendSMS(number, body)
+		redirect('/inbox?message=' + str(send_resp))
+	else:
+		redirect('/')
 
 
-run(host='localhost', port=8080, debug=True)
+run(port=8080, debug=True)
