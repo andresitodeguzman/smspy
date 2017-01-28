@@ -47,15 +47,18 @@ def rateLimit(sender):
     values = (str(sender),)
     c.execute("SELECT date FROM received WHERE sender=?", values)
     last = c.fetchone()
-    ld = last[0]
-    ld = ld.split(" ")
-    dt = ld[0]
-    tm = ld[1].split(":")
-    ld = str("%" + str(dt) + " " + str(tm[0]) + "%")
-    values = (str(sender), str(ld),)
-    c.execute("SELECT count() FROM received WHERE sender=? AND date LIKE ?", values)
-    got = c.fetchone()
-    if got[0] > 4:
-        return True
+    if last:
+        ld = last[0]
+        ld = ld.split(" ")
+        dt = ld[0]
+        tm = ld[1].split(":")
+        ld = str("%" + str(dt) + " " + str(tm[0]) + "%")
+        values = (str(sender), str(ld),)
+        c.execute("SELECT count() FROM received WHERE sender=? AND date LIKE ?", values)
+        got = c.fetchone()
+        if got[0] > 4:
+            return True
+        else:
+            return False
     else:
         return False

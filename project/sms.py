@@ -42,6 +42,7 @@ def doProcess(sc):
 
 ## Instantiate the Process
 os.system("clear")
-print("[NOTE] SMS Server Started")
+os.system('echo -ne "\033]0;SMSPy SMS Server\007"')
+print("[NOTE] SMS Server Started\n[INFO] Hit Ctrl+C to quit.\n")
 s.enter(10, 1, doProcess, (s,))
 s.run()

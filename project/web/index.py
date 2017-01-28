@@ -2,6 +2,7 @@ from bottle import route, run, template, get, post, request, static_file, error,
 import bottle
 import sqlite3, random
 import action
+import os
 
 # Configs
 bottle.TEMPLATE_PATH.insert(0,'includes')
@@ -228,5 +229,6 @@ def composeaction():
 	else:
 		redirect('/')
 
-
+os.system("clear")
+os.system('echo -ne "\033]0;SMSPy Web Server\007"')
 run(port=8080, debug=True)
