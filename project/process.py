@@ -1,5 +1,6 @@
 import sqlite3
 import system.tools
+import system.config as sc
 import dynamic
 import system.actions as sa
 
@@ -8,9 +9,9 @@ conn = sqlite3.connect("database/db.sqlite3")
 c = conn.cursor()
 
 ## DEFINE
-unknown = "Unknown Command. Text HELP for info."
-empty = "Welcome to our service. Text HELP for info."
-null_number = "Error! Empty number"
+unknown = sc.getValue("SMS_Unknown_Command")
+empty = sc.getValue("SMS_Empty_Body")
+null_number = sc.getValue("SMS_Null_Number")
 
 def responseQuery(number, body):
     values = (str(body),)

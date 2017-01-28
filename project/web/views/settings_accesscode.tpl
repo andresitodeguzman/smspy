@@ -3,6 +3,9 @@
 <br>
 <br>
 <div class="container">
+<br>
+<a href="/settings" class="grey-text">← Return to Settings</a>
+<br><br>
 <div class="card">
 	<div class="card-content">
 		<h4 class="green-text text-darken-2">

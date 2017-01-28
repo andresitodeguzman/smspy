@@ -21,6 +21,12 @@ def do_login(access_code):
 			else:
 				return False
 
+def loggedIn():
+	if request.get_cookie("smspy_logged_in"):
+		return True
+	else:
+		return False
+
 # HANDLE ERROR
 @error(404)
 def not_found(error):
@@ -37,14 +43,14 @@ def four():
 
 @get('/')
 def home():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 			 		return template('index.tpl')
 			else:
 			 		redirect('/login')
 
 @route('/login')
 def login():
-				if request.get_cookie("smspy_logged_in"):
+				if loggedIn():
 					redirect('/')
 				else:
 					if(request.query.message):
@@ -69,7 +75,7 @@ def logout():
 
 @route('/response')
 def responses():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 				if(request.query.message):
 				 		msg = request.query.message
 				else:
@@ -80,7 +86,7 @@ def responses():
 
 @route('/response/add')
 def addblacklist():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 			 		if(request.query.message):
 			 			msg = request.query.message
 			 		else:
@@ -91,7 +97,7 @@ def addblacklist():
 
 @post('/response/add')
 def addlogic():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 			 		category = request.forms.get('category')
 			 		keyword = request.forms.get('keyword')
 			 		response = request.forms.get('response')
@@ -102,7 +108,7 @@ def addlogic():
 
 @route('/response/delete/<keyword>')
 def deleteKeyword(keyword):
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 				del_res = action.deleteResponse(keyword)
 				redirect('/response?message=' + str(del_res))
 			else:
@@ -110,7 +116,7 @@ def deleteKeyword(keyword):
 
 @route('/response/edit')
 def editKeyword():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 				if request.query.keyword:
 					keyword = request.query.keyword
 					return template('response_edit.tpl', keyword=keyword)
@@ -121,7 +127,7 @@ def editKeyword():
 
 @post('/response/edit')
 def editKeywordDo():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 					keyword_old = request.query.keyword_old
 					category = request.forms.get('category')
 					keyword = request.forms.get('keyword')
@@ -133,7 +139,7 @@ def editKeywordDo():
 
 @route('/blacklist')
 def blklist():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 				if(request.query.message):
 					msg = request.query.message
 				else:
@@ -144,7 +150,7 @@ def blklist():
 
 @route('/blacklist/add')
 def add():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 			 		if(request.query.message):
 			 			msg = request.query.message
 			 		else:
@@ -155,7 +161,7 @@ def add():
 
 @post('/blacklist/add')
 def addLogicb():
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 			 		number = request.forms.get('number')
 			 		add_blacklist = action.addBlacklist(number)
 			 		redirect('/blacklist/add?message=' + str(add_blacklist))
@@ -164,15 +170,26 @@ def addLogicb():
 
 @route('/blacklist/delete/<number>')
 def deleteNumber(number):
-			if request.get_cookie("smspy_logged_in"):
+			if loggedIn():
 				del_res = action.deleteBlacklist(number)
 				redirect('/blacklist?message=' + str(del_res))
 			else:
 				redirect('/')
 
+@route('/settings')
+def settings():
+	if loggedIn():
+		if request.query.message:
+			msg = request.query.message
+		else:
+			msg = ''
+		return template('settings.tpl', message=msg)
+	else:
+		redirect('/')
+
 @route('/settings/accesscode')
 def accesscode():
-	if request.get_cookie("smspy_logged_in"):
+	if loggedIn():
 		if request.query.message:
 			msg = request.query.message
 		else:
@@ -183,16 +200,37 @@ def accesscode():
 
 @post('/settings/accesscode')
 def accesscodeChange():
-	if request.get_cookie("smspy_logged_in"):
+	if loggedIn():
 		access_code = request.forms.get('access_code')
 		acc_response = action.setPasscode(access_code)
 		redirect('/settings/accesscode?message=' + str(acc_response))
 	else:
 		redirect('/')
 
+@route('/settings/networkinfo')
+def ninfo():
+	if loggedIn():
+		return template('settings_networkinfo.tpl')
+	else:
+		redirect('/')
+
+@route('/settings/deviceinfo')
+def dinfo():
+	if loggedIn():
+		return template('settings_deviceinfo.tpl')
+	else:
+		redirect('/')
+
+@route('/settings/locationinfo')
+def linfo():
+	if loggedIn():
+		return template('settings_locationinfo.tpl')
+	else:
+		redirect('/')
+
 @route('/inbox')
 def inbox():
-	if request.get_cookie("smspy_logged_in"):
+	if loggedIn():
 		if request.query.message:
 			msg = request.query.message
 		else:
@@ -203,7 +241,7 @@ def inbox():
 
 @route('/inbox/reply')
 def reply():
-	if request.get_cookie("smspy_logged_in"):
+	if loggedIn():
 		if request.query.id:
 			 id = request.query.id
 			 return template('inbox_reply.tpl', id=id)
@@ -214,14 +252,14 @@ def reply():
 
 @route('/inbox/compose')
 def compose():
-	if request.get_cookie("smspy_logged_in"):
+	if loggedIn():
 			return template('inbox_compose.tpl')
 	else:
 		redirect('/')
 
 @post('/inbox/send')
 def composeaction():
-	if request.get_cookie("smspy_logged_in"):
+	if loggedIn():
 		number = request.forms.get("number")
 		body = request.forms.get("body")
 		send_resp = action.sendSMS(number, body)

@@ -44,6 +44,12 @@ def sendSMS(number, response):
 
 ## checks if user is ratelimited
 def rateLimit(sender):
+    c.execute("SELECT value FROM config WHERE key='Rate_Limit'")
+    limit = c.fetchone()
+    if limit:
+        limit = limit[0]
+    else:
+        limit = 5
     values = (str(sender),)
     c.execute("SELECT date FROM received WHERE sender=?", values)
     last = c.fetchone()
@@ -56,7 +62,7 @@ def rateLimit(sender):
         values = (str(sender), str(ld),)
         c.execute("SELECT count() FROM received WHERE sender=? AND date LIKE ?", values)
         got = c.fetchone()
-        if got[0] > 4:
+        if got[0] > int(limit):
             return True
         else:
             return False
