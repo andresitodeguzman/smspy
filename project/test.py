@@ -7,10 +7,14 @@
 # 
 
 # import the process
+import os
 import process
 
 # sets the number randomly
 number = str(1234)
+
+# clears screen (for posix)
+os.system('clear')
 
 # ask for input
 body = input("Text: ")
