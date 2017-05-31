@@ -1,3 +1,11 @@
+'''
+SMSPy
+Andresito de Guzman
+2016
+
+This is the main program for SMSPy.
+
+'''
 import sqlite3, subprocess, os, json, sched, time, os, datetime
 import process
 import system.sms as sms
