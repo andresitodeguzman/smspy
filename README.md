@@ -1,6 +1,8 @@
 # SMS Py
 SMS Auto responder and Directory built with Python and uses Termux API.
 
+[![BCH compliance](https://bettercodehub.com/edge/badge/andresitodeguzman/smspy?branch=master)](https://bettercodehub.com/)
+
 ## Requirements & Dependencies
 - Android Phone
 - Mobile Number and SMS Credits
