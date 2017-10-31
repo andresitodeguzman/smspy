@@ -22,5 +22,5 @@ body = input("Text: ")
 # sends data to process
 response = process.process(number, body)
 
-# prints the response
+# Prints the response
 print(response)

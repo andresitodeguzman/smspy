@@ -1,9 +1,11 @@
 # SMS Py
-SMS Auto responder and Directory built with Python and uses Termux API.
+SMS Auto responder and Directory for Android built with Python and uses Termux API.
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/andresitodeguzman/smspy?branch=master)](https://bettercodehub.com/)
 
 ## Requirements & Dependencies
+This will not work in Windows or non-Android systems.
+
 - Android Phone
 - Mobile Number and SMS Credits
 - Termux
@@ -14,5 +16,5 @@ SMS Auto responder and Directory built with Python and uses Termux API.
 ## Notes
 - This repository is meant for personal use and deployment.
 - Web interface runs at 127.0.0.1:8080, change that in the web/index.py file.
-- For more information on how to deploy for your business, e-mail me at andresitodeguzman@gmail.com. 
+- For more information on how to deploy for your business or events, e-mail me at andresitodeguzman@gmail.com.
 - Since this is not meant for public use, I will not be actively answering technical questions on installation and usage. Also, No warranty is granted for its external usage.
