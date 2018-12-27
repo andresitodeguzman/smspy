@@ -23,7 +23,7 @@ def processBody(number, body):
 def doProcess(sc):
     try:
         ## Performs Command and Gets Output Recieved
-        texts = subprocess.check_output('termux-sms-inbox -l "5"', shell=True)
+        texts = subprocess.check_output('termux-sms-list -l "5"', shell=True)
         ## Decode and JSONify Recieved Text
         texts = json.loads(texts.decode("utf-8"))
     except:
