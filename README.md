@@ -3,6 +3,9 @@ SMS Auto responder and Directory for Android built with Python and uses Termux A
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/andresitodeguzman/smspy?branch=master)](https://bettercodehub.com/)
 
+## THIS PROJECT IS NOW ARCHIVED
+Unfortunately, due to the changes made by Google on how Android allows access to SMS, Termux's capability to send and receive texts has been removed. I had a bigger vision for SMSPy but we can't change Google's decision. Nonetheless, I had fun experimenting with SMSPy.
+
 ## Requirements & Dependencies
 This will not work in Windows or non-Android systems.
 
