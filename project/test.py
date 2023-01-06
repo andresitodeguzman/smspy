@@ -14,7 +14,7 @@ import process
 number = str(1234)
 
 # clears screen (for posix)
-os.system('clear')
+# os.system('clear')
 
 # ask for input
 body = input("Text: ")
@@ -23,4 +23,4 @@ body = input("Text: ")
 response = process.process(number, body)
 
 # Prints the response
-print(response)
+print('Response: ' + response)
