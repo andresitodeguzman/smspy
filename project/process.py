@@ -9,7 +9,8 @@ conn = sqlite3.connect("database/db.sqlite3")
 c = conn.cursor()
 
 ## DEFINE
-unknown = sc.getValue("SMS_Unknown_Command")
+# unknown = sc.getValue("SMS_Unknown_Command")
+unknown = None
 empty = sc.getValue("SMS_Empty_Body")
 null_number = sc.getValue("SMS_Null_Number")
 
