@@ -69,13 +69,13 @@ def doProcess(sc):
 
                     ## Process the response
                     response = processBody(sender, body)
-                    if response:
-                        ## Save to DB
-                        sms.saveSMS(sender, date, body, response)
 
+                    ## Save to DB
+                    sms.saveSMS(sender, date, body, response)
+
+                    if response:
                         ## Send Response
                         sms.sendSMS(sender, response)
-                        pass
 
     ## Reenter timer process
     s.enter(10, 1, doProcess, (sc,))
